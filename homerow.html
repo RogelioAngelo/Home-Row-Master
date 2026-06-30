@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Row Typing Trainer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 { color: #333; margin-bottom: 10px; }
+        p { color: #666; margin-bottom: 30px; }
+        .display-word {
+            font-size: 3rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            font-family: monospace;
+        }
+        .current { background-color: #ffe066; border-radius: 4px; padding: 0 5px; }
+        .correct { color: #2b8a3e; }
+        .wrong { color: #c92a2a; background-color: #ffc9c9; }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #495057;
+        }
+        .restart-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #228be6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .restart-btn:hover { background-color: #1c7ed6; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Home Row Master</h1>
+    <p>Keep your eyes on the screen! Fingers on <b>asdf</b> and <b>jkl;</b></p>
+    
+    <div class="display-word" id="wordDisplay"></div>
+    
+    <div class="stats">
+        <div>Score: <span id="score">0</span></div>
+        <div>Accuracy: <span id="accuracy">100</span>%</div>
+    </div>
+    
+    <button class="restart-btn" onclick="resetGame()">Generate New Sequence</button>
+</div>
+
+<script>
+    const allowedChars = "asdfghjkl";
+    let targetSequence = "";
+    let currentIndex = 0;
+    let totalAttempts = 0;
+    let correctAttempts = 0;
+
+    const wordDisplay = document.getElementById('wordDisplay');
+    const scoreDisplay = document.getElementById('score');
+    const accuracyDisplay = document.getElementById('accuracy');
+
+    function generateSequence(length = 6) {
+        let result = "";
+        for (let i = 0; i < length; i++) {
+            result += allowedChars.charAt(Math.floor(Math.random() * allowedChars.length));
+        }
+        return result;
+    }
+
+    function updateDisplay() {
+        let html = "";
+        for (let i = 0; i < targetSequence.length; i++) {
+            if (i < currentIndex) {
+                html += `<span class="correct">${targetSequence[i]}</span>`;
+            } else if (i === currentIndex) {
+                html += `<span class="current">${targetSequence[i]}</span>`;
+            } else {
+                html += `<span>${targetSequence[i]}</span>`;
+            }
+        }
+        wordDisplay.innerHTML = html;
+    }
+
+    function resetGame() {
+        targetSequence = generateSequence(6);
+        currentIndex = 0;
+        updateDisplay();
+    }
+
+    window.addEventListener('keydown', (e) => {
+        // Ignore modifier keys
+        if (e.key.length !== 1) return;
+
+        const expectedKey = targetSequence[currentIndex];
+        totalAttempts++;
+
+        if (e.key.toLowerCase() === expectedKey) {
+            correctAttempts++;
+            currentIndex++;
+            
+            if (currentIndex >= targetSequence.length) {
+                scoreDisplay.textContent = parseInt(scoreDisplay.textContent) + 1;
+                targetSequence = generateSequence(6);
+                currentIndex = 0;
+            }
+        } else {
+            // Flash wrong key briefly visually
+            const currentSpan = document.querySelector('.current');
+            if (currentSpan) {
+                currentSpan.classList.add('wrong');
+                setTimeout(() => currentSpan.classList.remove('wrong'), 150);
+            }
+        }
+
+        // Calculate Accuracy
+        const accuracy = Math.round((correctAttempts / totalAttempts) * 100);
+        accuracyDisplay.textContent = accuracy;
+        
+        updateDisplay();
+    });
+
+    // Start the first game
+    resetGame();
+</script>
+
+</body>
+</html>

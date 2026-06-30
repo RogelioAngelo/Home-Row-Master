@@ -1,0 +1,77 @@
+{
+  "name": "homerow-master",
+  "displayName": "Home Row Master",
+  "description": "Master the home row keys (ASDF GHJ KL;) with a fast-paced typing trainer inside VS Code.",
+  "version": "1.0.3",
+  "publisher": "local",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/local/homerow-master"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": ["Other"],
+  "icon": "media/icon.png",
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "homerow-explorer",
+          "title": "Home Row Master",
+          "icon": "media/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "homerow-explorer": [
+        {
+          "type": "webview",
+          "id": "homerow.webviewView",
+          "name": "Home Row Master"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "homerow.openTrainer",
+        "title": "Open Trainer",
+        "category": "Home Row Master",
+        "icon": "$(keyboard)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "homerow.openTrainer",
+        "key": "ctrl+shift+h",
+        "mac": "cmd+shift+h"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "homerow.openTrainer"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "homerow.openTrainer",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.0.0"
+  }
+}
