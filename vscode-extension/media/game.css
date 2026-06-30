@@ -687,4 +687,54 @@ body::after {
   }
 }
 
+@container main-container (max-width: 350px) {
+  .keyboard {
+    padding: 6px 4px;
+    gap: 3px;
+  }
+  .key {
+    width: 20px;
+    height: 22px;
+    font-size: 8px;
+    border-radius: 3px;
+  }
+  .kb-row {
+    gap: 3px;
+  }
+  .kb-row-home {
+    padding-left: 9px;
+  }
+  .kb-row-bottom {
+    padding-left: 18px;
+  }
+  .key.space-key {
+    width: 80px;
+  }
+}
+
+@container main-container (max-width: 280px) {
+  .keyboard {
+    padding: 4px 2px;
+    gap: 2px;
+  }
+  .key {
+    width: 15px;
+    height: 18px;
+    font-size: 7px;
+    border-radius: 2px;
+  }
+  .kb-row {
+    gap: 2px;
+  }
+  .kb-row-home {
+    padding-left: 7px;
+  }
+  .kb-row-bottom {
+    padding-left: 14px;
+  }
+  .key.space-key {
+    width: 60px;
+  }
+}
+
 

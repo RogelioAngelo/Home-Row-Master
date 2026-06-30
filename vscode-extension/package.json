@@ -2,7 +2,7 @@
   "name": "homerow-master",
   "displayName": "Home Row Master",
   "description": "Master the home row keys (ASDF GHJ KL;) with a fast-paced typing trainer inside VS Code.",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "publisher": "local",
   "license": "MIT",
   "repository": {

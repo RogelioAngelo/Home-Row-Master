@@ -153,6 +153,16 @@ const COMMON_WORDS = [
   'most', 'us'
 ];
 
+const MEDIUM_WORDS = [
+  // medium-length, moderately common words
+  'planet', 'garden', 'bridge', 'window', 'forest', 'mountain', 'picture', 'computer', 'bicycle', 'holiday', 'river', 'electric', 'victory', 'justice', 'culture', 'history', 'science', 'language', 'example', 'program'
+];
+
+const HARD_WORDS = [
+  // harder, longer, less common words
+  'aberration', 'cognizance', 'ephemeral', 'quintessential', 'ubiquitous', 'magnanimous', 'paradoxical', 'incongruous', 'labyrinthine', 'metamorphosis', 'obfuscate', 'recalcitrant', 'sagacious', 'tranquility', 'vindication', 'zeitgeist', 'anthropomorphic', 'circumspection', 'disenfranchised', 'extrapolation'
+];
+
 const POEMS = [
   "two roads diverged in a yellow wood and sorry i could not travel both and be one traveler long i stood and looked down one as far as i could to where it bent in the undergrowth",
   "hope is the thing with feathers that perches in the soul and sings the tune without the words and never stops at all",
@@ -308,8 +318,16 @@ function generateSequence() {
     return generateLetters(100);
   } else if (state.mode === 'words') {
     let words = [];
+    let sourceWords;
+    if (state.difficulty === 'medium') {
+      sourceWords = MEDIUM_WORDS;
+    } else if (state.difficulty === 'hard') {
+      sourceWords = HARD_WORDS;
+    } else {
+      sourceWords = COMMON_WORDS;
+    }
     for (let i = 0; i < 60; i++) {
-      words.push(COMMON_WORDS[Math.floor(Math.random() * COMMON_WORDS.length)]);
+      words.push(sourceWords[Math.floor(Math.random() * sourceWords.length)]);
     }
     return words.join(' ');
   } else if (state.mode === 'poems') {
@@ -754,9 +772,18 @@ function handleKey(e) {
       textToAppend = generateLetters(50);
     } else if (state.mode === 'words') {
       let words = [];
-      for (let i = 0; i < 30; i++) {
-        words.push(COMMON_WORDS[Math.floor(Math.random() * COMMON_WORDS.length)]);
+      let sourceWords;
+      if (state.difficulty === 'medium') {
+        sourceWords = MEDIUM_WORDS;
+      } else if (state.difficulty === 'hard') {
+        sourceWords = HARD_WORDS;
+      } else {
+        sourceWords = COMMON_WORDS;
       }
+      for (let i = 0; i < 60; i++) {
+        words.push(sourceWords[Math.floor(Math.random() * sourceWords.length)]);
+      }
+      // Append generated words to the sequence with a leading space
       textToAppend = ' ' + words.join(' ');
     } else if (state.mode === 'poems') {
       let nextIndex;
